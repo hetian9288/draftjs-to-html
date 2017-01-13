@@ -286,16 +286,18 @@ function getInlineStyleSections(
   const styleSections = [];
   const { text } = block;
   if (text.length > 0) {
+    // 解决Emoji乱码问题
+    const texts = Array.from(text);
     const inlineStyles = getStyleArrayForBlock(block);
     let section;
     for (let i = start; i < end; i += 1) {
       if (i !== start && sameStyleAsPrevious(inlineStyles, styles, i)) {
-        section.text.push(text[i]);
+        section.text.push(texts[i]);
         section.end = i + 1;
       } else {
         section = {
           styles: getStylesAtOffset(inlineStyles, i),
-          text: [text[i]],
+          text: [texts[i]],
           start: i,
           end: i + 1,
         };
